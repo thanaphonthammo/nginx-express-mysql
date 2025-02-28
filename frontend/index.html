@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<center lang="en">
+<head>
+    <style>
+        #user-list {
+    list-style: none; /* ✅ ซ่อนจุดไข่ปลา */
+    padding: 0;       /* ✅ เอา padding ด้านซ้ายออก */
+}
+        h1 {text-align: center;}
+        h2 {text-align: center;}
+        input {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+        </style>    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+</head>
+<body>
+   <center>
+    <h1>User List</h1>
+    <ul id="user-list"></ul>
+
+    <h2>Add User</h2>
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="addUser()">Add</button>
+
+    <script>
+ const API_URL = "http://localhost:3001/users"; // ✅ ใช้ชื่อ container backend
+
+
+
+        // ดึงข้อมูลผู้ใช้จาก API
+        function fetchUsers() {
+    fetch(API_URL)
+        .then(response => response.json())
+        .then(users => {
+            const list = document.getElementById("user-list");
+            list.innerHTML = "";
+            users.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = `${user.name} - ${user.email}`;
+                list.appendChild(li);
+            });
+        })
+        .catch(err => console.error("❌ Fetch Error:", err));
+}
+
+        // เพิ่มผู้ใช้ใหม่
+        function addUser() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+
+    fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+    })
+    .then(response => response.json())
+    .then(() => {
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        fetchUsers();
+    })
+    .catch(err => console.error("❌ Insert Error:", err));
+}
+
+        // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
+        fetchUsers();
+    </script>
+    </center>
+</body>
+
+</html>
