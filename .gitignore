@@ -1,13 +1,13 @@
-# Node.js
-node_modules/
-npm-debug.log
-.env
+# # Node.js
+# node_modules/
+# npm-debug.log
+# .env
 
-# Docker
-db-data/
-docker-compose.override.yml
+# # Docker
+# db-data/
+# docker-compose.override.yml
 
-# macOS
-.DS_Store
+# # macOS
+# .DS_Store
 
 
